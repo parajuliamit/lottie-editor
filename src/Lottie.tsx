@@ -1,7 +1,5 @@
 import Lottie from "react-lottie";
 import { LottieJson } from "./lottie/lottie";
-import { Button } from "@mantine/core";
-import { useState } from "react";
 
 export default function LottiePlayer({
   animationData,
@@ -10,14 +8,13 @@ export default function LottiePlayer({
   animationData: LottieJson;
   paused?: boolean;
 }) {
-  const [isStopped, setIsStopped] = useState(false);
   return (
     <div>
       <Lottie
         isPaused={paused}
         options={{
           loop: true,
-          autoplay: true,
+          autoplay: paused ? false : true,
           animationData: animationData,
           rendererSettings: {
             preserveAspectRatio: "xMidYMid slice",

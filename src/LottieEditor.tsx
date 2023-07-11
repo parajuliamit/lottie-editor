@@ -248,18 +248,7 @@ export const LottieEditor = ({
 
   return (
     <>
-      <Grid.Col
-        md={4}
-        xs={10}
-        mx={{ md: "0", base: "auto" }}
-        span={12}
-        sx={(theme) => ({
-          [theme.fn.largerThan("md")]: { borderRight: "1px solid #E5E5E5" },
-          [theme.fn.smallerThan("md")]: { border: "none" },
-        })}
-        orderMd={1}
-        order={2}
-      >
+      <Grid.Col md={4} xs={10} span={12} orderMd={1} order={2}>
         <Accordion
           variant="contained"
           chevronPosition="left"
@@ -269,18 +258,7 @@ export const LottieEditor = ({
           {objects}
         </Accordion>
       </Grid.Col>
-      <Grid.Col
-        md={4}
-        xs={10}
-        mx={{ md: "0", base: "auto" }}
-        span={12}
-        sx={(theme) => ({
-          [theme.fn.largerThan("md")]: { borderRight: "1px solid #E5E5E5" },
-          [theme.fn.smallerThan("md")]: { border: "none" },
-        })}
-        orderMd={2}
-        order={3}
-      >
+      <Grid.Col md={3} xs={10} span={12} orderMd={3} order={3}>
         <Text mb={"sm"} weight={"bold"} size={"lg"}>
           All Colors
         </Text>

@@ -5,7 +5,6 @@ import {
   Grid,
   JsonInput,
   MantineProvider,
-  SimpleGrid,
   Text,
 } from "@mantine/core";
 import { useState } from "react";
@@ -51,7 +50,8 @@ export default function App() {
             <Button
               disabled={!isValidJson()}
               color="teal"
-              size="xl"
+              size="lg"
+              px={40}
               radius={"lg"}
               style={{ fontWeight: 800 }}
               onClick={() => {
@@ -67,7 +67,7 @@ export default function App() {
           </Flex>
         </Box>
 
-        <Box m={"xl"}>
+        <Box>
           <JsonInput
             label="Enter your Lottie JSON here"
             placeholder="Enter your Lottie JSON here"
@@ -88,12 +88,15 @@ export default function App() {
             )}
 
             <Grid.Col
-              md={4}
+              md={5}
               xs={10}
               mx={{ md: "0", base: "auto" }}
               span={12}
-              orderMd={3}
+              orderMd={2}
               order={1}
+              bg={"#eee"}
+              style={{ zIndex: 1 }}
+              mt={8}
             >
               {isValidJson() && (
                 <Box w={400} h={500} mt={20}>
@@ -135,7 +138,6 @@ export default function App() {
                   <Button
                     style={{
                       position: "relative",
-                      zIndex: 100,
                     }}
                     onClick={() => {
                       setAnimationPaused(!animationPaused);
