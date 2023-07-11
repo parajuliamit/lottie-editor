@@ -1,22 +1,26 @@
 import {
+  Anchor,
   Box,
   Button,
-  Container,
   Flex,
   Grid,
-  JsonInput,
   MantineProvider,
+  Modal,
   Text,
 } from "@mantine/core";
 import { useState } from "react";
 import LottiePlayer from "./Lottie";
 import { LottieEditor } from "./LottieEditor";
 import { LottieJson } from "./lottie/lottie";
+import { FiUpload } from "react-icons/fi";
+import FileUpload from "./FileUpload";
+import { useDisclosure } from "@mantine/hooks";
 
 export default function App() {
   const [value, setValue] = useState("");
   const [selectedJson, setSelectedJson] = useState<LottieJson | null>(null);
   const [animationPaused, setAnimationPaused] = useState(false);
+  const [opened, { open, close }] = useDisclosure(false);
 
   function setValueFromJson(json: LottieJson) {
     setValue(JSON.stringify(json, null, 2));
@@ -24,7 +28,7 @@ export default function App() {
 
   function isValidJson() {
     try {
-      JSON.parse(value);
+      JSON.parse(value) as LottieJson;
       return true;
     } catch (e) {
       return false;
@@ -34,6 +38,9 @@ export default function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <Box>
+        <Modal opened={opened} onClose={close} withCloseButton={false}>
+          <FileUpload value={value} setValue={setValue} onClose={close} />
+        </Modal>
         <Box
           px={"xl"}
           py={"sm"}
@@ -49,64 +56,59 @@ export default function App() {
               </Text>
               <Text size={"2rem"}> Editor </Text>
             </Flex>
-            <Button
-              disabled={!isValidJson()}
-              color="teal"
-              size="md"
-              px={40}
-              radius={"md"}
-              style={{ fontWeight: 700 }}
-              onClick={() => {
-                const a = document.createElement("a");
-                a.href =
-                  "data:text/json;charset=utf-8," + encodeURIComponent(value);
-                a.download = "lottie.json";
-                a.click();
-              }}
-            >
-              Export
-            </Button>
+
+            <Flex align={"center"}>
+              <Anchor mr={"xl"} c={"teal"} onClick={open}>
+                <FiUpload size={"1.5rem"} />
+              </Anchor>
+              <Button
+                disabled={!isValidJson()}
+                color="teal"
+                size="md"
+                px={40}
+                radius={"md"}
+                style={{ fontWeight: 700 }}
+                onClick={() => {
+                  const a = document.createElement("a");
+                  a.href =
+                    "data:text/json;charset=utf-8," + encodeURIComponent(value);
+                  a.download = "lottie.json";
+                  a.click();
+                }}
+              >
+                Export
+              </Button>
+            </Flex>
           </Flex>
         </Box>
-
-        <Box>
-          {/* <JsonInput
-            label="Enter your Lottie JSON here"
-            placeholder="Enter your Lottie JSON here"
-            validationError="Invalid JSON"
-            minRows={4}
-            value={value}
-            onChange={setValue}
-            mb={"lg"}
-            p={"lg"}
-          /> */}
-          <Grid w={"100%"} h={"100%"} mt={0}>
-            {isValidJson() && (
+        {!isValidJson() ? (
+          <FileUpload value={value} setValue={setValue} />
+        ) : (
+          <Box>
+            <Grid w={"100%"} h={"100%"} mt={0}>
               <LottieEditor
                 value={JSON.parse(value) as LottieJson}
                 setJson={setValueFromJson}
                 setSelectedjson={setSelectedJson}
               />
-            )}
 
-            <Grid.Col
-              md={6}
-              xs={10}
-              mx={0}
-              span={12}
-              orderMd={2}
-              order={1}
-              bg={"#f9f9f9"}
-              style={{ zIndex: 1 }}
-              p={0}
-              sx={(theme) => ({
-                [theme.fn.largerThan("md")]: {
-                  borderRight: "1px solid #E5E5E5",
-                },
-                [theme.fn.smallerThan("md")]: { border: "none" },
-              })}
-            >
-              {isValidJson() && (
+              <Grid.Col
+                md={6}
+                xs={10}
+                mx={0}
+                span={12}
+                orderMd={2}
+                order={1}
+                bg={"#f9f9f9"}
+                style={{ zIndex: 1 }}
+                p={0}
+                sx={(theme) => ({
+                  [theme.fn.largerThan("md")]: {
+                    borderRight: "1px solid #E5E5E5",
+                  },
+                  [theme.fn.smallerThan("md")]: { border: "none" },
+                })}
+              >
                 <Box>
                   <Box pos={"relative"}>
                     <Box
@@ -156,10 +158,10 @@ export default function App() {
                     </Button>
                   </Box>
                 </Box>
-              )}
-            </Grid.Col>
-          </Grid>
-        </Box>
+              </Grid.Col>
+            </Grid>
+          </Box>
+        )}
       </Box>
     </MantineProvider>
   );

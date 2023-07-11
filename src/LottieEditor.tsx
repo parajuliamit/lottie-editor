@@ -30,7 +30,7 @@ function getLayerColors(
   if (shapes) {
     return shapes
       .flatMap((shape, shapeIndex) => {
-        return shape.it.map((item, itemIndex) => {
+        return shape?.it?.map((item, itemIndex) => {
           if (item.c) {
             return {
               assetLayerIndex,
