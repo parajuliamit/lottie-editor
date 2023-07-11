@@ -1,4 +1,4 @@
-const dummy = {
+export const dummy = {
   nm: "ANIMATION",
   ddd: 0,
   h: 1248,

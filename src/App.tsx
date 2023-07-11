@@ -2,6 +2,7 @@ import {
   Anchor,
   Box,
   Button,
+  Center,
   Flex,
   Grid,
   MantineProvider,
@@ -11,7 +12,7 @@ import {
 import { useState } from "react";
 import LottiePlayer from "./Lottie";
 import { LottieEditor } from "./LottieEditor";
-import { LottieJson } from "./lottie/lottie";
+import { LottieJson, dummy } from "./lottie/lottie";
 import { FiUpload } from "react-icons/fi";
 import FileUpload from "./FileUpload";
 import { useDisclosure } from "@mantine/hooks";
@@ -82,7 +83,29 @@ export default function App() {
           </Flex>
         </Box>
         {!isValidJson() ? (
-          <FileUpload value={value} setValue={setValue} />
+          <>
+            <FileUpload value={value} setValue={setValue} />
+            <Center>
+              <Text size="sm" color="dimmed">
+                OR
+              </Text>
+            </Center>
+            <Center>
+              <Button
+                mt={"lg"}
+                color="teal"
+                size="md"
+                px={40}
+                radius={"md"}
+                style={{ fontWeight: 700 }}
+                onClick={() => {
+                  setValueFromJson(dummy);
+                }}
+              >
+                Try Demo
+              </Button>
+            </Center>
+          </>
         ) : (
           <Box>
             <Grid w={"100%"} h={"100%"} mt={0}>

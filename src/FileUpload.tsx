@@ -96,7 +96,6 @@ export default function FileUpload({
         minRows={6}
         value={value}
         onChange={setValue}
-        mb={"lg"}
         p={"lg"}
       />
     </>
