@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Container,
   Flex,
   Grid,
   JsonInput,
@@ -34,26 +35,27 @@ export default function App() {
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <Box>
         <Box
-          p={"xl"}
+          px={"xl"}
+          py={"sm"}
           style={{
             borderBottom: "1px solid #eee",
           }}
         >
           <Flex align={"center"} justify={"space-between"}>
             <Flex>
-              <Text weight={"bold"} size={"2.5rem"}>
+              <Text weight={"bold"} size={"2rem"}>
                 {" "}
                 Lottie{" "}
               </Text>
-              <Text size={"2.5rem"}> Editor </Text>
+              <Text size={"2rem"}> Editor </Text>
             </Flex>
             <Button
               disabled={!isValidJson()}
               color="teal"
-              size="lg"
+              size="md"
               px={40}
-              radius={"lg"}
-              style={{ fontWeight: 800 }}
+              radius={"md"}
+              style={{ fontWeight: 700 }}
               onClick={() => {
                 const a = document.createElement("a");
                 a.href =
@@ -68,7 +70,7 @@ export default function App() {
         </Box>
 
         <Box>
-          <JsonInput
+          {/* <JsonInput
             label="Enter your Lottie JSON here"
             placeholder="Enter your Lottie JSON here"
             validationError="Invalid JSON"
@@ -77,8 +79,8 @@ export default function App() {
             onChange={setValue}
             mb={"lg"}
             p={"lg"}
-          />
-          <Grid w={"100%"}>
+          /> */}
+          <Grid w={"100%"} h={"100%"} mt={0}>
             {isValidJson() && (
               <LottieEditor
                 value={JSON.parse(value) as LottieJson}
@@ -88,23 +90,27 @@ export default function App() {
             )}
 
             <Grid.Col
-              md={5}
+              md={6}
               xs={10}
-              mx={{ md: "0", base: "auto" }}
+              mx={0}
               span={12}
               orderMd={2}
               order={1}
-              bg={"#eee"}
+              bg={"#f9f9f9"}
               style={{ zIndex: 1 }}
-              mt={8}
+              p={0}
+              sx={(theme) => ({
+                [theme.fn.largerThan("md")]: {
+                  borderRight: "1px solid #E5E5E5",
+                },
+                [theme.fn.smallerThan("md")]: { border: "none" },
+              })}
             >
               {isValidJson() && (
-                <Box w={400} h={500} mt={20}>
-                  <Box pos={"relative"} h={400} w={400}>
+                <Box>
+                  <Box pos={"relative"}>
                     <Box
                       pos={"absolute"}
-                      top={0}
-                      left={0}
                       h={"100%"}
                       w={"100%"}
                       style={{
@@ -120,8 +126,6 @@ export default function App() {
                     {selectedJson && (
                       <Box
                         pos={"absolute"}
-                        top={0}
-                        left={0}
                         h={"100%"}
                         w={"100%"}
                         style={{
@@ -135,16 +139,22 @@ export default function App() {
                       </Box>
                     )}
                   </Box>
-                  <Button
+                  <Box
                     style={{
-                      position: "relative",
-                    }}
-                    onClick={() => {
-                      setAnimationPaused(!animationPaused);
+                      display: "flex",
+                      justifyContent: "center",
                     }}
                   >
-                    {animationPaused ? "Play" : "Pause"}
-                  </Button>
+                    <Button
+                      mt={430}
+                      onClick={() => {
+                        setAnimationPaused(!animationPaused);
+                      }}
+                      color="teal"
+                    >
+                      {animationPaused ? "Play" : "Pause"}
+                    </Button>
+                  </Box>
                 </Box>
               )}
             </Grid.Col>

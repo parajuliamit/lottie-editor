@@ -167,7 +167,11 @@ export const LottieEditor = ({
             }, {} as Record<string, ColorDetails[]>)
           : null;
       return (
-        <Accordion.Item value={index.toString()} key={layer.layer.ind}>
+        <Accordion.Item
+          value={index.toString()}
+          key={layer.layer.ind}
+          px={"md"}
+        >
           <Accordion.Control>{layer.layer.nm}</Accordion.Control>
           <Accordion.Panel>
             {layer.shapes && (
@@ -190,7 +194,11 @@ export const LottieEditor = ({
                 {Object.entries(layerAssets).map(
                   ([assetName, assetColors], j) => {
                     return (
-                      <Accordion key={"asset" + j.toString()}>
+                      <Accordion
+                        key={"asset" + j.toString()}
+                        chevronPosition="left"
+                        variant="contained"
+                      >
                         <Accordion.Item value={j.toString()}>
                           <Accordion.Control>{assetName}</Accordion.Control>
                           <Accordion.Panel>
@@ -248,9 +256,21 @@ export const LottieEditor = ({
 
   return (
     <>
-      <Grid.Col md={4} xs={10} span={12} orderMd={1} order={2}>
+      <Grid.Col
+        md={3}
+        xs={10}
+        span={12}
+        orderMd={1}
+        order={2}
+        mx={0}
+        p={0}
+        sx={(theme) => ({
+          [theme.fn.largerThan("md")]: { borderRight: "1px solid #E5E5E5" },
+          [theme.fn.smallerThan("md")]: { border: "none" },
+        })}
+      >
         <Accordion
-          variant="contained"
+          variant="filled"
           chevronPosition="left"
           value={accordianValue}
           onChange={setAccordianValue}
@@ -258,8 +278,16 @@ export const LottieEditor = ({
           {objects}
         </Accordion>
       </Grid.Col>
-      <Grid.Col md={3} xs={10} span={12} orderMd={3} order={3}>
-        <Text mb={"sm"} weight={"bold"} size={"lg"}>
+      <Grid.Col md={3} xs={10} span={12} orderMd={3} order={3} px={"xs"}>
+        <Text
+          p={"xs"}
+          mb={"xs"}
+          weight={"600"}
+          size={"md"}
+          style={{
+            borderBottom: "1px solid #E5E5E5",
+          }}
+        >
           All Colors
         </Text>
         {commonColorItems}

@@ -11,6 +11,7 @@ export const ColorEditor = ({ setColor, rgba }: ColorEditorProps) => {
 
   return (
     <ColorInput
+      variant="unstyled"
       format="rgba"
       value={`rgba(${Math.round(r * 255)},${Math.round(g * 255)},${Math.round(
         b * 255
