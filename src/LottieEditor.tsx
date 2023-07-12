@@ -1,7 +1,8 @@
-import { Accordion, Grid, Text } from "@mantine/core";
+import { Accordion, Grid, ScrollArea, Text } from "@mantine/core";
 import { ColorEditor } from "./ColorEditor";
 import { LottieJson } from "./lottie/lottie";
 import { useEffect, useState } from "react";
+import { useViewportSize } from "@mantine/hooks";
 
 type LottieColor = [number, number, number, number] | [number, number, number];
 
@@ -76,7 +77,7 @@ export const LottieEditor = ({
   setSelectedjson,
 }: LottieEditorProps) => {
   const [accordianValue, setAccordianValue] = useState<string | null>(null);
-
+  const { height } = useViewportSize();
   const layers = value.layers;
   const colorDetails = getColorDetailsFromLottie(value);
 
@@ -269,14 +270,16 @@ export const LottieEditor = ({
           [theme.fn.smallerThan("md")]: { border: "none" },
         })}
       >
-        <Accordion
-          variant="filled"
-          chevronPosition="left"
-          value={accordianValue}
-          onChange={setAccordianValue}
-        >
-          {objects}
-        </Accordion>
+        <ScrollArea h={height - 80} scrollHideDelay={500} type="hover">
+          <Accordion
+            variant="filled"
+            chevronPosition="left"
+            value={accordianValue}
+            onChange={setAccordianValue}
+          >
+            {objects}
+          </Accordion>
+        </ScrollArea>
       </Grid.Col>
       <Grid.Col md={3} xs={10} span={12} orderMd={3} order={3} px={"xs"}>
         <Text

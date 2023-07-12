@@ -10,7 +10,7 @@ import {
   Text,
 } from "@mantine/core";
 import { useState } from "react";
-import LottiePlayer from "./Lottie";
+import LottiePlayer from "./LottiePlayer";
 import { LottieEditor } from "./LottieEditor";
 import { LottieJson, dummy } from "./lottie/lottie";
 import { FiUpload } from "react-icons/fi";
@@ -20,7 +20,6 @@ import { useDisclosure } from "@mantine/hooks";
 export default function App() {
   const [value, setValue] = useState("");
   const [selectedJson, setSelectedJson] = useState<LottieJson | null>(null);
-  const [animationPaused, setAnimationPaused] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 
   function setValueFromJson(json: LottieJson) {
@@ -40,7 +39,12 @@ export default function App() {
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <Box>
         <Modal opened={opened} onClose={close} withCloseButton={false}>
-          <FileUpload value={value} setValue={setValue} onClose={close} />
+          <FileUpload
+            value={value}
+            setValue={setValue}
+            onClose={close}
+            setSelectedJson={setSelectedJson}
+          />
         </Modal>
         <Box
           px={"xl"}
@@ -48,6 +52,7 @@ export default function App() {
           style={{
             borderBottom: "1px solid #eee",
           }}
+          h={80}
         >
           <Flex align={"center"} justify={"space-between"}>
             <Flex>
@@ -84,7 +89,11 @@ export default function App() {
         </Box>
         {!isValidJson() ? (
           <>
-            <FileUpload value={value} setValue={setValue} />
+            <FileUpload
+              value={value}
+              setValue={setValue}
+              setSelectedJson={setSelectedJson}
+            />
             <Center>
               <Text size="sm" color="dimmed">
                 OR
@@ -115,73 +124,10 @@ export default function App() {
                 setSelectedjson={setSelectedJson}
               />
 
-              <Grid.Col
-                md={6}
-                xs={10}
-                mx={0}
-                span={12}
-                orderMd={2}
-                order={1}
-                bg={"#f9f9f9"}
-                style={{ zIndex: 1 }}
-                p={0}
-                sx={(theme) => ({
-                  [theme.fn.largerThan("md")]: {
-                    borderRight: "1px solid #E5E5E5",
-                  },
-                  [theme.fn.smallerThan("md")]: { border: "none" },
-                })}
-              >
-                <Box>
-                  <Box pos={"relative"}>
-                    <Box
-                      pos={"absolute"}
-                      h={"100%"}
-                      w={"100%"}
-                      style={{
-                        opacity: selectedJson ? 0.2 : 1,
-                        zIndex: -1,
-                      }}
-                    >
-                      <LottiePlayer
-                        paused={animationPaused}
-                        animationData={JSON.parse(value) as LottieJson}
-                      />
-                    </Box>
-                    {selectedJson && (
-                      <Box
-                        pos={"absolute"}
-                        h={"100%"}
-                        w={"100%"}
-                        style={{
-                          opacity: 1,
-                        }}
-                      >
-                        <LottiePlayer
-                          animationData={selectedJson}
-                          paused={animationPaused}
-                        />
-                      </Box>
-                    )}
-                  </Box>
-                  <Box
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Button
-                      mt={430}
-                      onClick={() => {
-                        setAnimationPaused(!animationPaused);
-                      }}
-                      color="teal"
-                    >
-                      {animationPaused ? "Play" : "Pause"}
-                    </Button>
-                  </Box>
-                </Box>
-              </Grid.Col>
+              <LottiePlayer
+                animationData={JSON.parse(value) as LottieJson}
+                selectedJson={selectedJson}
+              />
             </Grid>
           </Box>
         )}

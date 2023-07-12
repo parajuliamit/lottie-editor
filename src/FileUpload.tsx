@@ -15,10 +15,12 @@ export default function FileUpload({
   value,
   setValue,
   onClose,
+  setSelectedJson,
 }: {
   value: string;
   setValue: (value: string) => void;
   onClose?: () => void;
+  setSelectedJson: (value: null) => void;
 }) {
   const theme = useMantineTheme();
   return (
@@ -30,6 +32,7 @@ export default function FileUpload({
             f.text()
               .then((text) => {
                 setValue(text);
+                setSelectedJson(null);
                 if (onClose) onClose();
               })
               .catch((err) => {
